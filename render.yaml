@@ -3,7 +3,6 @@ services:
   - type: web
     name: sparkmeet-api
     runtime: node
-    plan: free
     region: singapore
     rootDir: backend
     buildCommand: npm ci
