@@ -4,6 +4,7 @@ import { Server } from "socket.io"
 let connections = {}
 let messages = {}
 let timeOnline = {}
+let screenShares = {}
 
 export const connectToSocket = (server) => {
     const io = new Server(server, {
@@ -37,6 +38,10 @@ export const connectToSocket = (server) => {
                 io.to(connections[path][a]).emit("user-joined", socket.id, connections[path])
             }
 
+            connections[path].forEach((peerId) => {
+                if (screenShares[peerId]) io.to(socket.id).emit("screen-share-status", peerId, true)
+            })
+
             if (messages[path] !== undefined) {
                 for (let a = 0; a < messages[path].length; ++a) {
                     io.to(socket.id).emit("chat-message", messages[path][a]['data'],
@@ -48,6 +53,13 @@ export const connectToSocket = (server) => {
 
         socket.on("signal", (toId, message) => {
             io.to(toId).emit("signal", socket.id, message);
+        })
+
+        socket.on("screen-share-status", (isSharing) => {
+            screenShares[socket.id] = Boolean(isSharing)
+            const room = Object.values(connections).find((members) => members.includes(socket.id)) || []
+            room.forEach((peerId) => io.to(peerId).emit("screen-share-status", socket.id, Boolean(isSharing)))
+            if (!isSharing) delete screenShares[socket.id]
         })
 
         socket.on("chat-message", (data, sender) => {
@@ -80,6 +92,8 @@ export const connectToSocket = (server) => {
         })
 
         socket.on("disconnect", () => {
+
+            delete screenShares[socket.id]
 
             var diffTime = Math.abs(timeOnline[socket.id] - new Date())
 

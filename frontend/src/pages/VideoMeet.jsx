@@ -40,7 +40,7 @@ export default function VideoMeetComponent() {
 
     let [screen, setScreen] = useState();
 
-    let [showModal, setModal] = useState(true);
+    let [showModal, setModal] = useState(false);
 
     let [screenAvailable, setScreenAvailable] = useState();
 
@@ -57,6 +57,7 @@ export default function VideoMeetComponent() {
     const videoRef = useRef([])
 
     let [videos, setVideos] = useState([])
+    let [remoteScreenShares, setRemoteScreenShares] = useState({})
 
     // TODO
     // if(isChrome() === false) {
@@ -76,7 +77,7 @@ export default function VideoMeetComponent() {
                 navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
                     .then(getDislayMediaSuccess)
                     .then((stream) => { })
-                    .catch((e) => console.log(e))
+                    .catch((e) => { console.log(e); setScreen(false); })
             }
         }
     }
@@ -216,6 +217,7 @@ export default function VideoMeetComponent() {
 
         window.localStream = stream
         localVideoref.current.srcObject = stream
+        socketRef.current?.emit('screen-share-status', true)
 
         for (let id in connections) {
             if (id === socketIdRef.current) continue
@@ -233,6 +235,7 @@ export default function VideoMeetComponent() {
 
         stream.getTracks().forEach(track => track.onended = () => {
             setScreen(false)
+            socketRef.current?.emit('screen-share-status', false)
 
             try {
                 let tracks = localVideoref.current.srcObject.getTracks()
@@ -277,6 +280,14 @@ export default function VideoMeetComponent() {
         socketRef.current = io.connect(server_url, { secure: false })
 
         socketRef.current.on('signal', gotMessageFromServer)
+        socketRef.current.on('screen-share-status', (peerId, isSharing) => {
+            setRemoteScreenShares((current) => {
+                const next = { ...current }
+                if (isSharing) next[peerId] = true
+                else delete next[peerId]
+                return next
+            })
+        })
 
         socketRef.current.on('connect', () => {
             socketRef.current.emit('join-call', window.location.href)
@@ -525,7 +536,19 @@ export default function VideoMeetComponent() {
 
                     <video className={styles.meetUserVideo} ref={localVideoref} autoPlay muted></video>
 
-                    <div className={styles.conferenceView}>
+                    {videos.some((item) => remoteScreenShares[item.socketId]) && <section className={styles.screenShareStage} aria-label="Shared screen">
+                        {videos.filter((item) => remoteScreenShares[item.socketId]).map((video) => <div className={styles.sharedScreen} key={`screen-${video.socketId}`}>
+                            <video
+                                data-socket={video.socketId}
+                                ref={ref => { if (ref && video.stream) ref.srcObject = video.stream; }}
+                                autoPlay
+                                playsInline
+                            />
+                            <span className={styles.screenShareLabel}>Screen shared by participant</span>
+                        </div>)}
+                    </section>}
+
+                    <div className={`${styles.conferenceView} ${videos.some((item) => remoteScreenShares[item.socketId]) ? styles.conferenceViewDuringShare : ''}`}>
                         {videos.map((video) => (
                             <div key={video.socketId}>
                                 <video
