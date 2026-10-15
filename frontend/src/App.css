@@ -1,96 +1,173 @@
-.landingPageContainer {
-  width: 100vw;
-  height: 100vh;
-  background: url("/public/background.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
+:root {
+  --ink: #1c2740;
+  --muted: #66738a;
+  --muted-light: #8994a8;
+  --line: #e5eaf2;
+  --paper: #ffffff;
+  --canvas: #f6f8fb;
+  --blue: #3559b7;
+  --blue-dark: #294797;
+  --blue-soft: #edf2ff;
+  --mint: #eaf6f2;
+  --shadow: 0 18px 48px rgba(30, 49, 83, .08);
 }
 
-.landingPageContainer nav {
-  padding-inline: 1.2rem;
-  padding-block: 1.6rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.landingPageContainer { min-height: 100vh; overflow: hidden; color: var(--ink); background: var(--paper); }
+.landingHeader, .landingHero, .benefitsSection, .landingFooter { width: min(1160px, calc(100% - 64px)); margin-inline: auto; }
+.landingHeader { min-height: 86px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #edf0f5; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font-size: 19px; font-weight: 700; letter-spacing: -.4px; }
+.brandButton { padding: 0; border: 0; background: none; cursor: pointer; font: inherit; }
+.brandMark { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; color: white; background: var(--blue); }
+.brandMark svg { font-size: 21px; }
+.landingNav { display: flex; align-items: center; gap: 25px; }
+.landingNav button { border: 0; cursor: pointer; font: inherit; font-size: 14px; font-weight: 600; }
+.textNavButton { padding: 9px 0; color: #526078; background: transparent; }
+.textNavButton:hover { color: var(--blue); }
+.navCta { display: inline-flex; align-items: center; gap: 9px; padding: 11px 15px; border-radius: 8px; color: white; background: var(--blue); }
+.navCta:hover, .heroPrimary:hover, .appNavActions .MuiButton-contained:hover { background: var(--blue-dark); }
+.navCta svg { font-size: 17px; }
+.landingHero { min-height: 515px; display: grid; grid-template-columns: 1.03fr .97fr; align-items: center; gap: 38px; padding-block: 42px 55px; }
+.heroCopy { max-width: 580px; }
+.heroEyebrow { display: inline-flex; align-items: center; padding: 8px 11px; border: 1px solid #e1e9f8; border-radius: 999px; color: var(--blue); background: #f5f8ff; font-size: 12px; font-weight: 700; letter-spacing: .02em; }
+.heroCopy h1 { margin: 21px 0 17px; color: var(--ink); font-size: clamp(42px, 5.3vw, 67px); line-height: 1.08; font-weight: 700; letter-spacing: -2.5px; }
+.heroCopy h1 span { color: var(--blue); }
+.heroCopy > p { max-width: 475px; margin: 0; color: #657289; font-size: 17px; line-height: 1.7; }
+.heroActions { display: flex; align-items: center; gap: 13px; margin-top: 27px; }
+.heroActions button { display: inline-flex; justify-content: center; align-items: center; gap: 9px; min-height: 47px; padding: 0 17px; border-radius: 8px; cursor: pointer; font: inherit; font-size: 14px; font-weight: 650; }
+.heroPrimary { border: 1px solid var(--blue); color: white; background: var(--blue); transition: background .15s ease; }
+.heroPrimary svg { font-size: 18px; }
+.heroSecondary { border: 1px solid var(--line); color: #47556d; background: white; }
+.heroSecondary:hover { border-color: #bbc9e6; background: #f9faff; }
+.heroTrust { display: flex; align-items: center; gap: 9px; margin-top: 22px; color: #7a879a; font-size: 12px; }
+.trustDot { width: 7px; height: 7px; border-radius: 50%; background: #46a783; }
+.trustDivider { color: #c2cad6; }
+.heroVisual { min-height: 385px; position: relative; display: grid; place-items: center; }
+.visualGlow { position: absolute; width: 360px; height: 360px; border-radius: 50%; background: #edf3ff; }
+.visualImageFrame { position: relative; z-index: 1; width: min(100%, 440px); padding: 10px; overflow: hidden; border: 1px solid #e7ebf3; border-radius: 20px; background: white; box-shadow: var(--shadow); }
+.visualImageFrame img { display: block; width: 100%; height: auto; border-radius: 13px; }
+.visualCaption { position: absolute; z-index: 2; right: -5px; bottom: 18px; display: flex; align-items: center; gap: 10px; padding: 12px 15px; border: 1px solid var(--line); border-radius: 11px; background: white; box-shadow: 0 12px 30px #293d5c1a; }
+.captionIcon { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 9px; color: var(--blue); background: var(--blue-soft); }
+.captionIcon svg { font-size: 19px; }
+.visualCaption strong, .visualCaption small { display: block; }
+.visualCaption strong { color: #27334b; font-size: 12px; }
+.visualCaption small { margin-top: 3px; color: #7d899c; font-size: 11px; }
+.benefitsSection { padding: 35px 0 57px; border-top: 1px solid #edf0f5; }
+.benefitsIntro { margin-bottom: 22px; }
+.benefitsIntro > span { color: var(--blue); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; }
+.benefitsIntro h2 { margin: 7px 0 0; color: var(--ink); font-size: 25px; letter-spacing: -.6px; }
+.benefitGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.benefitCard { min-height: 168px; padding: 19px; border: 1px solid var(--line); border-radius: 11px; background: white; }
+.benefitIcon { display: grid; width: 35px; height: 35px; place-items: center; border-radius: 9px; color: var(--blue); background: var(--blue-soft); }
+.benefitIcon svg { font-size: 19px; }
+.benefitCard h3 { margin: 13px 0 6px; color: #28344b; font-size: 14px; }
+.benefitCard p { max-width: 320px; margin: 0; color: #748096; font-size: 12px; line-height: 1.6; }
+.landingFooter { min-height: 68px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #edf0f5; color: #8490a2; font-size: 12px; }
+.landingFooter .brand { font-size: 14px; }
+.landingFooter .brandMark { width: 27px; height: 27px; border-radius: 8px; }
+.landingFooter .brandMark svg { font-size: 17px; }
 
+.appShell { min-height: 100vh; color: var(--ink); background: var(--canvas); }
+.appShell .navBar { max-width: 1240px; margin: auto; padding: 19px 32px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.appShell .brand { color: var(--ink); }
+.appNavActions { display: flex; align-items: center; gap: 8px; }
+.appNavActions button { color: #59667d; text-transform: none; font-family: inherit; font-size: 13px; font-weight: 600; }
+.appNavActions .MuiButton-contained { padding: 9px 16px; border-radius: 8px; color: white; background: var(--blue); box-shadow: none; }
+.meetContainer { max-width: 1160px; min-height: 625px; margin: auto; padding: 56px 32px 75px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 55px; }
+.leftPanel { display: flex; align-items: center; }
+.homeEyebrow { margin-bottom: 17px; color: var(--blue); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+.meetContainer h1 { max-width: 510px; margin: 0 0 15px; color: var(--ink); font-size: clamp(36px, 4vw, 51px); line-height: 1.12; letter-spacing: -1.8px; }
+.meetContainer .intro { max-width: 455px; margin: 0 0 27px; color: #6b778d; font-size: 15px; line-height: 1.7; }
+.joinCard { max-width: 500px; padding: 21px; border: 1px solid var(--line); border-radius: 12px; background: white; box-shadow: 0 12px 34px #1e31530a; }
+.joinCard > p { margin: 0 0 13px; color: #303d56; font-size: 13px; font-weight: 700; }
+.joinForm { display: flex; gap: 9px; }
+.joinForm .MuiTextField-root { flex: 1; }
+.joinForm .MuiOutlinedInput-root { border-radius: 8px; }
+.joinForm .MuiButton-contained { min-width: 91px; border-radius: 8px; color: white; background: var(--blue); text-transform: none; font-family: inherit; font-size: 13px; font-weight: 650; box-shadow: none; }
+.homeFootnote { margin: 12px 0 0; color: #8a95a7; font-size: 11px; line-height: 1.5; }
+.homeVisual { min-height: 365px; position: relative; display: grid; place-items: center; }
+.homeVisual::before { content: ""; position: absolute; width: 345px; height: 345px; border-radius: 50%; background: #e9effc; }
+.homeVisual img { position: relative; z-index: 1; width: min(100%, 425px); max-height: 370px; object-fit: contain; border-radius: 17px; filter: drop-shadow(0 18px 28px #263b6120); }
+
+.authPage { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; background: white; }
+.authShowcase { position: relative; overflow: hidden; min-height: 100vh; padding: 40px clamp(32px, 7vw, 94px); display: flex; flex-direction: column; justify-content: space-between; color: var(--ink); background: #f2f5fb; }
+.authShowcase::after { content: ""; position: absolute; width: 380px; height: 380px; right: -180px; bottom: -150px; border: 1px solid #d8e1f0; border-radius: 50%; box-shadow: 0 0 0 40px #e8edf6, 0 0 0 80px #e9eef7; }
+.authShowcase .brand { position: relative; z-index: 1; color: var(--ink); }
+.authShowcase .brandMark { background: var(--blue); }
+.authPitch { position: relative; z-index: 1; max-width: 470px; margin: auto 0; }
+.authPitch h1 { margin: 0 0 16px; color: #22304a; font-size: clamp(38px, 4.6vw, 58px); line-height: 1.1; letter-spacing: -2px; }
+.authPitch p { max-width: 390px; color: #69768c; font-size: 15px; line-height: 1.7; }
+.authQuote { position: relative; z-index: 1; color: #7b8799; font-size: 12px; }
+.authFormSide { display: grid; place-items: center; padding: 36px; }
+.authCard { width: min(100%, 410px); }
+.authCard h2 { margin: 0 0 7px; color: var(--ink); font-size: 28px; letter-spacing: -.6px; }
+.authCard .authSub { margin: 0 0 22px; color: #7c879b; font-size: 13px; }
+.authTabs { display: flex; padding: 4px; border: 1px solid var(--line); border-radius: 8px; background: #f5f7fa; }
+.authTabs button { flex: 1; padding: 9px; border: 0; border-radius: 6px; color: #718096; background: transparent; cursor: pointer; font: inherit; font-size: 13px; }
+.authTabs button.active { color: #263550; background: white; box-shadow: 0 1px 4px #22304a15; font-weight: 650; }
+.authCard form { margin-top: 14px; }
+.authCard .MuiTextField-root { margin: 7px 0; }
+.authCard .MuiOutlinedInput-root { border-radius: 8px; background: white; }
+.authCard .MuiButton-contained { margin-top: 12px; padding: 11px; border-radius: 8px; color: white; background: var(--blue); text-transform: none; font-family: inherit; font-size: 13px; font-weight: 650; box-shadow: none; }
+.authError { margin: 5px 0; color: #bf3e46; font-size: 12px; }
+.backHome { display: block; width: 100%; padding: 8px; border: 0; color: #748198; background: transparent; cursor: pointer; font: inherit; font-size: 12px; }
+.backHome:hover { color: var(--blue); }
+
+.historyPage { padding-bottom: 60px; background: var(--canvas); }
+.historyContent { width: min(100% - 48px, 880px); margin: 48px auto; }
+.historyHeading { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 23px; }
+.historyHeading h1 { margin: 0 0 6px; color: var(--ink); font-size: 30px; letter-spacing: -.8px; }
+.historyHeading p { margin: 0; color: #7d899d; font-size: 13px; }
+.historyList { display: grid; gap: 10px; }
+.historyItem { display: flex; justify-content: space-between; align-items: center; padding: 17px 19px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+.historyCode { display: flex; align-items: center; gap: 11px; color: #35415a; font-size: 13px; font-weight: 650; }
+.historyIcon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 9px; color: var(--blue); background: var(--blue-soft); }
+.historyDate { color: #7d899d; font-size: 12px; }
+.emptyHistory { padding: 45px 20px; border: 1px dashed #d5dce8; border-radius: 11px; color: #7d899d; text-align: center; background: white; font-size: 13px; }
+
+@media (max-width: 760px) {
+  .landingHeader, .landingHero, .benefitsSection, .landingFooter { width: min(100% - 40px, 600px); }
+  .landingHeader { min-height: 72px; }
+  .landingNav { gap: 14px; }
+  .landingNav button { font-size: 12px; }
+  .navCta { padding: 10px 11px; }
+  .landingHero { min-height: auto; padding: 48px 0 44px; grid-template-columns: 1fr; gap: 25px; }
+  .heroCopy h1 { font-size: clamp(41px, 9vw, 58px); letter-spacing: -1.9px; }
+  .heroCopy > p { font-size: 15px; }
+  .heroVisual { min-height: 315px; }
+  .visualGlow { width: 290px; height: 290px; }
+  .visualImageFrame { width: min(100%, 390px); }
+  .visualCaption { right: 0; bottom: 6px; }
+  .benefitGrid { grid-template-columns: 1fr; }
+  .benefitCard { min-height: auto; }
+  .landingFooter { min-height: 64px; }
+  .appShell .navBar { padding: 16px 20px; }
+  .meetContainer { padding: 40px 22px 55px; grid-template-columns: 1fr; gap: 20px; }
+  .homeVisual { min-height: 295px; }
+  .homeVisual img { max-height: 300px; }
+  .homeVisual::before { width: 260px; height: 260px; }
+  .authPage { grid-template-columns: 1fr; }
+  .authShowcase { min-height: 72px; padding: 17px 24px; border-bottom: 1px solid var(--line); background: #f6f8fb; }
+  .authShowcase::after, .authPitch, .authQuote { display: none; }
+  .authFormSide { min-height: calc(100vh - 72px); padding: 24px; }
+  .historyContent { margin-top: 35px; }
 }
-
-.landingPageContainer nav h2 {
-  font-size: 1.8rem;
-  font-weight: 500;
-}
-
-.landingPageContainer nav .navlist {
-  display: flex;
-  gap: 1.6rem;
-  cursor: pointer;
-
-}
-
-.landingMainContainer {
-  display: flex;
-  justify-content: space-between;
-  padding-inline: 3rem;
-  height: 80vh;
-  align-items: center;
-}
-
-.landingMainContainer>div:nth-child(1) {
-  font-size: 2.2rem;
-}
-
-.landingMainContainer>div:nth-child(1) div[role='button'] {
-  background: #D97500;
-  width: fit-content;
-  padding: 1rem;
-  border-radius: 20px;
-  margin-top: 1.9rem;
-}
-
-.landingMainContainer>div:nth-child(1) div[role='button'] a {
-  text-decoration: none;
-  color: white;
-  font-size: 1.7rem;
-}
-
-.landingMainContainer>div:nth-child(2) img {
-  height: 70vh;
-  width: auto;
-}
-
-.navBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-inline: 20px;
-  text-align: center;
-
-}
-.meetContainer {
-  display: flex;
-  padding-inline: 20px;
-  height: 80vh;
-  gap: 10vw;
-  justify-content: center;
-}
-
-
-
-.leftPanel {
-  height: 100%;
-  display: flex;
-  align-items: center;
-
-}
-
-.rightPanel {
-  display: flex;
-  align-items: center;
-}
-
-.rightPanel > img {
-  width: 30vw;
-  height: auto;
-  border-radius: 20px;
+@media (max-width: 430px) {
+  .landingHeader, .landingHero, .benefitsSection, .landingFooter { width: calc(100% - 32px); }
+  .landingNav { gap: 10px; }
+  .textNavButton:first-child { display: none; }
+  .navCta { padding: 9px; }
+  .heroActions { align-items: stretch; flex-direction: column; }
+  .heroActions button { width: 100%; }
+  .heroTrust { font-size: 10px; }
+  .heroVisual { min-height: 270px; }
+  .visualCaption { right: -3px; padding: 9px 11px; }
+  .visualCaption strong { font-size: 11px; }
+  .visualCaption small { font-size: 10px; }
+  .appShell .navBar { padding-inline: 14px; }
+  .appNavActions { gap: 2px; }
+  .appNavActions button { min-width: 0; padding-inline: 7px; font-size: 11px; }
+  .joinForm { flex-direction: column; }
+  .joinForm .MuiButton-contained { min-height: 45px; }
+  .historyHeading { align-items: flex-start; gap: 12px; flex-direction: column; }
+  .historyItem { align-items: flex-start; gap: 10px; flex-direction: column; }
 }

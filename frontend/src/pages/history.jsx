@@ -1,88 +1,39 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import HomeIcon from '@mui/icons-material/Home';
+import { Button } from '@mui/material';
+import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
+import RestoreRoundedIcon from '@mui/icons-material/RestoreRounded';
 
-import { IconButton } from '@mui/material';
 export default function History() {
+  const { getHistoryOfUser } = useContext(AuthContext);
+  const [meetings, setMeetings] = useState([]);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    let active = true;
+    getHistoryOfUser().then(history => { if (active) setMeetings(Array.isArray(history) ? history : []); }).catch(() => { if (active) setMeetings([]); });
+    return () => { active = false; };
+  }, [getHistoryOfUser]);
 
-    const { getHistoryOfUser } = useContext(AuthContext);
+  const formatDate = value => {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return 'Date unavailable';
+    return new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+  };
 
-    const [meetings, setMeetings] = useState([])
-
-
-    const routeTo = useNavigate();
-
-    useEffect(() => {
-        const fetchHistory = async () => {
-            try {
-                const history = await getHistoryOfUser();
-                setMeetings(history);
-            } catch {
-                // IMPLEMENT SNACKBAR
-            }
-        }
-
-        fetchHistory();
-    }, [])
-
-    let formatDate = (dateString) => {
-
-        const date = new Date(dateString);
-        const day = date.getDate().toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2, "0")
-        const year = date.getFullYear();
-
-        return `${day}/${month}/${year}`
-
-    }
-
-    return (
-        <div>
-
-            <IconButton onClick={() => {
-                routeTo("/home")
-            }}>
-                <HomeIcon />
-            </IconButton >
-            {
-                (meetings.length !== 0) ? meetings.map((e, i) => {
-                    return (
-
-                        <>
-
-
-                            <Card key={i} variant="outlined">
-
-
-                                <CardContent>
-                                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                        Code: {e.meetingCode}
-                                    </Typography>
-
-                                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                        Date: {formatDate(e.date)}
-                                    </Typography>
-
-                                </CardContent>
-
-
-                            </Card>
-
-
-                        </>
-                    )
-                }) : <></>
-
-            }
-
-        </div>
-    )
+  return <main className="historyPage appShell">
+    <header className="navBar">
+      <div className="brand"><span className="brandMark"><VideocamRoundedIcon /></span><span>Spark<span style={{color:'#6269f5'}}>Meet</span></span></div>
+      <div className="appNavActions"><Button startIcon={<ArrowBackRoundedIcon />} onClick={() => navigate('/home')}>Back to meetings</Button></div>
+    </header>
+    <section className="historyContent">
+      <div className="historyHeading"><div><h1>Your meeting history</h1><p>Pick up where your last conversation left off.</p></div></div>
+      {meetings.length ? <div className="historyList">{meetings.map((meeting, index) => <article className="historyItem" key={`${meeting.meetingCode}-${meeting.date}-${index}`}>
+        <div className="historyCode"><span className="historyIcon"><RestoreRoundedIcon /></span><span>{meeting.meetingCode || 'Meeting'}</span></div>
+        <span className="historyDate">{formatDate(meeting.date)}</span>
+      </article>)}</div> : <div className="emptyHistory">Your past meetings will appear here when you join one.</div>}
+    </section>
+  </main>;
 }
