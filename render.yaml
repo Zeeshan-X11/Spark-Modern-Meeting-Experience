@@ -1,3 +1,4 @@
+
 services:
   - type: web
     name: sparkmeet-api
@@ -18,7 +19,6 @@ services:
     name: sparkmeet-web
     runtime: static
     plan: free
-    region: singapore
     rootDir: frontend
     buildCommand: npm ci && npm run build
     staticPublishPath: build
