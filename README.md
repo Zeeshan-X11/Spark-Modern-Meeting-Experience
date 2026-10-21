@@ -81,7 +81,11 @@ The project focuses on building a maintainable application with a clear separati
                  └──────────────────────────┘
 
                   Deployment: Render
+```
+
+
 <img width="1152" height="741" alt="Screenshot 2026-10-21 095204" src="https://github.com/user-attachments/assets/f16f1347-bbc5-4f17-b49b-2a600014df9a" />
+
 
 ```
 
