@@ -45,6 +45,7 @@
 .visualGlow { position: absolute; width: 360px; height: 360px; border-radius: 50%; background: #edf3ff; }
 .visualImageFrame { position: relative; z-index: 1; width: min(100%, 440px); padding: 10px; overflow: hidden; border: 1px solid #e7ebf3; border-radius: 20px; background: white; box-shadow: var(--shadow); }
 .visualImageFrame img { display: block; width: 100%; height: auto; border-radius: 13px; }
+.visualImageFrame .heroMeetingArtwork { aspect-ratio: 1 / 1; height: auto; object-fit: cover; object-position: 90% center; }
 .visualCaption { position: absolute; z-index: 2; right: -5px; bottom: 18px; display: flex; align-items: center; gap: 10px; padding: 12px 15px; border: 1px solid var(--line); border-radius: 11px; background: white; box-shadow: 0 12px 30px #293d5c1a; }
 .captionIcon { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 9px; color: var(--blue); background: var(--blue-soft); }
 .captionIcon svg { font-size: 19px; }

@@ -39,7 +39,7 @@ export default function LandingPage() {
       </div>
       <div className="heroVisual">
         <div className="visualGlow" />
-        <div className="visualImageFrame"><img src="/mobile.png" alt="Two students meeting by video call" /></div>
+        <div className="visualImageFrame"><img className="heroMeetingArtwork" src="/sparkmeet-student-meeting.png" alt="Students collaborating over a SparkMeet video call on a laptop" /></div>
         <div className="visualCaption"><span className="captionIcon"><GroupsRoundedIcon /></span><span><strong>Make time to learn together</strong><small>Connect with your study group</small></span></div>
       </div>
     </section>
