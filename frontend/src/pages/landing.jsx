@@ -1,55 +1,111 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded';
-import ScreenShareRoundedIcon from '@mui/icons-material/ScreenShareRounded';
-import HistoryRoundedIcon from '@mui/icons-material/HistoryRounded';
+import LinkRoundedIcon from '@mui/icons-material/LinkRounded';
+import MicNoneRoundedIcon from '@mui/icons-material/MicNoneRounded';
+import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
+import './consultation.css';
 
-const benefits = [
-  { icon: <GroupsRoundedIcon />, title: 'Study together', copy: 'Meet classmates for group projects, revision, and focused study sessions.' },
-  { icon: <ScreenShareRoundedIcon />, title: 'Work through ideas', copy: 'Share your screen to explain a problem, walk through notes, or present a project.' },
-  { icon: <HistoryRoundedIcon />, title: 'Pick up where you left off', copy: 'Find your recent meeting codes again when it is time to continue.' }
+const steps = [
+  { icon: <LinkRoundedIcon />, title: 'Get your code', copy: 'Have the consultation code shared by your doctor handy.' },
+  { icon: <MicNoneRoundedIcon />, title: 'Set up your device', copy: 'Use a quiet space and check your camera and microphone.' },
+  { icon: <VideocamOutlinedIcon />, title: 'Join the video room', copy: 'Enter the code to open the room in your browser.' }
 ];
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  return <main className="landingPageContainer">
-    <header className="landingHeader">
-      <button className="brand brandButton" onClick={() => navigate('/')} aria-label="SparkMeet home">
-        <span className="brandMark"><VideocamRoundedIcon /></span><span>SparkMeet</span>
-      </button>
-      <nav className="landingNav" aria-label="Main navigation">
-        <button className="textNavButton" onClick={() => navigate('/aljk23')}>Join a meeting</button>
-        <button className="textNavButton" onClick={() => navigate('/auth')}>Sign in</button>
-        <button className="navCta" onClick={() => navigate('/auth')}>Create account <ArrowForwardRoundedIcon /></button>
-      </nav>
-    </header>
+  const [code, setCode] = useState('');
+  const [error, setError] = useState('');
 
-    <section className="landingHero">
-      <div className="heroCopy">
-        <div className="heroEyebrow">Video meetings for student life</div>
-        <h1>Better together,<br /><span>wherever you study.</span></h1>
-        <p>Get your classmates in one room for study sessions, group projects, and everything you learn together.</p>
-        <div className="heroActions">
-          <button className="heroPrimary" onClick={() => navigate('/auth')}>Start a meeting <ArrowForwardRoundedIcon /></button>
-          <button className="heroSecondary" onClick={() => navigate('/aljk23')}>Join as a guest</button>
+  function joinConsultation(event) {
+    event.preventDefault();
+    const room = code.trim();
+
+    if (!room || /^(auth|home|history|\.{1,2})$/i.test(room)) {
+      setError('Enter the consultation code shared by your doctor.');
+      return;
+    }
+
+    navigate('/' + encodeURIComponent(room));
+  }
+
+  return (
+    <div id="top" className="consultation-page">
+      <header className="consultation-header">
+        <div className="consultation-width consultation-header-inner">
+          <Link className="consultation-brand" to="/" aria-label="SparkMeet home">
+            <span className="consultation-brand-icon"><AddRoundedIcon /></span>
+            <span>SparkMeet <small>CONSULTATIONS</small></span>
+          </Link>
+          <nav aria-label="Main navigation">
+            <a className="consultation-help" href="#how-it-works">How it works</a>
+            <Link className="consultation-sign-in" to="/auth">Sign in <ArrowForwardRoundedIcon /></Link>
+          </nav>
         </div>
-        <div className="heroTrust"><span className="trustDot" /> Easy to join <span className="trustDivider">·</span> Built for your next group session</div>
-      </div>
-      <div className="heroVisual">
-        <div className="visualGlow" />
-        <div className="visualImageFrame"><img className="heroMeetingArtwork" src="/sparkmeet-student-meeting.png" alt="Students collaborating over a SparkMeet video call on a laptop" /></div>
-        <div className="visualCaption"><span className="captionIcon"><GroupsRoundedIcon /></span><span><strong>Make time to learn together</strong><small>Connect with your study group</small></span></div>
-      </div>
-    </section>
+      </header>
 
-    <section className="benefitsSection" aria-label="Ways to use SparkMeet">
-      <div className="benefitsIntro"><span>Made for how students work</span><h2>Make group work feel simpler.</h2></div>
-      <div className="benefitGrid">{benefits.map(item => <article className="benefitCard" key={item.title}>
-        <span className="benefitIcon">{item.icon}</span><h3>{item.title}</h3><p>{item.copy}</p>
-      </article>)}</div>
-    </section>
-    <footer className="landingFooter"><div className="brand"><span className="brandMark"><VideocamRoundedIcon /></span><span>SparkMeet</span></div><span>Make learning a little more connected.</span></footer>
-  </main>;
+      <main>
+        <section className="consultation-width consultation-hero" aria-labelledby="consultation-title">
+          <div className="consultation-intro">
+            <p className="consultation-kicker"><span /> Online doctor consultations</p>
+            <h1 id="consultation-title">Your doctor.<br /><em>One video call away.</em></h1>
+            <p className="consultation-description">Meet with your doctor from wherever you are. Have your consultation code ready and join from your browser.</p>
+
+            <form className="consultation-form" onSubmit={joinConsultation}>
+              <label htmlFor="consultation-code">Consultation code</label>
+              <div className="consultation-form-controls">
+                <input
+                  id="consultation-code"
+                  type="text"
+                  value={code}
+                  placeholder="Enter your code"
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  aria-invalid={Boolean(error)}
+                  aria-describedby="consultation-code-help"
+                  onChange={event => { setCode(event.target.value); setError(''); }}
+                />
+                <button type="submit">Join consultation <ArrowForwardRoundedIcon /></button>
+              </div>
+              <p id="consultation-code-help" className={error ? 'consultation-error' : undefined} aria-live="polite">
+                {error || 'Use the code shared by your doctor.'}
+              </p>
+            </form>
+          </div>
+
+          <figure className="consultation-visual">
+            <img src={process.env.PUBLIC_URL + '/doctor-video-consultation.jpg'} alt="A doctor speaking with a patient over a laptop video call" />
+            <figcaption>
+              <span className="consultation-video-icon"><VideocamOutlinedIcon /></span>
+              <span><strong>Video consultation</strong><small>Join from your browser</small></span>
+            </figcaption>
+          </figure>
+        </section>
+
+        <section id="how-it-works" className="consultation-guide" aria-labelledby="consultation-guide-title">
+          <div className="consultation-width consultation-guide-inner">
+            <h2 id="consultation-guide-title">How to join your consultation</h2>
+            <ol className="consultation-steps">
+              {steps.map(step => (
+                <li key={step.title}>
+                  <span className="consultation-step-icon">{step.icon}</span>
+                  <div><h3>{step.title}</h3><p>{step.copy}</p></div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      </main>
+
+      <footer className="consultation-width consultation-footer">
+        <Link className="consultation-brand" to="/">
+          <span className="consultation-brand-icon"><AddRoundedIcon /></span>
+          SparkMeet
+        </Link>
+        <a href="#top">Back to top ↑</a>
+      </footer>
+    </div>
+  );
 }
