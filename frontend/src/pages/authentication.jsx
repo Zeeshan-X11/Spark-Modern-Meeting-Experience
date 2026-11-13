@@ -1,65 +1,96 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import { AuthContext } from '../contexts/AuthContext';
-import { Button, Snackbar, TextField } from '@mui/material';
-import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
+import { ConsultationLayout, ConsultationVisual } from './consultationLayout';
 
 export default function Authentication() {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [name, setName] = React.useState('');
-  const [error, setError] = React.useState('');
-  const [message, setMessage] = React.useState('');
-  const [formState, setFormState] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const { handleRegister, handleLogin } = React.useContext(AuthContext);
-  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { handleRegister, handleLogin } = useContext(AuthContext);
 
-  const selectMode = mode => { setFormState(mode); setError(''); };
-  const handleAuth = async event => {
+  function selectMode(register) {
+    setIsRegistering(register);
+    setError('');
+    setMessage('');
+  }
+
+  async function handleAuth(event) {
     event.preventDefault();
     setError('');
-    if (!username.trim() || !password || (formState === 1 && !name.trim())) {
+    setMessage('');
+    if (!username.trim() || !password || (isRegistering && !name.trim())) {
       setError('Please complete all required fields.');
       return;
     }
+
     setLoading(true);
     try {
-      if (formState === 0) {
-        await handleLogin(username.trim(), password);
-      } else {
+      if (isRegistering) {
         const result = await handleRegister(name.trim(), username.trim(), password);
         setMessage(result || 'Your account is ready. Please sign in.');
-        setOpen(true);
-        setFormState(0);
+        setIsRegistering(false);
         setPassword('');
+      } else {
+        await handleLogin(username.trim(), password);
       }
     } catch (err) {
       setError(err?.response?.data?.message || 'We couldn’t complete that request. Please try again.');
-    } finally { setLoading(false); }
-  };
+    } finally {
+      setLoading(false);
+    }
+  }
 
-  return <main className="authPage">
-    <section className="authShowcase">
-      <div className="brand"><span className="brandMark"><VideocamRoundedIcon /></span><span>Spark<span style={{color:'#aeb1ff'}}>Meet</span></span></div>
-      <div className="authPitch"><h1>Good things happen when we meet.</h1><p>Bring your team into the same room, wherever life and work take you.</p></div>
-      <div className="authQuote">Clear conversations. Closer teams. Better work.</div>
-    </section>
-    <section className="authFormSide"><div className="authCard">
-      <h2>{formState === 0 ? 'Welcome back' : 'Create your account'}</h2>
-      <p className="authSub">{formState === 0 ? 'Sign in to get back to your conversations.' : 'A few details and you’re ready to meet.'}</p>
-      <div className="authTabs"><button className={formState === 0 ? 'active' : ''} onClick={() => selectMode(0)}>Sign in</button><button className={formState === 1 ? 'active' : ''} onClick={() => selectMode(1)}>Create account</button></div>
-      <form onSubmit={handleAuth}>
-        {formState === 1 && <TextField margin="normal" required fullWidth label="Full name" autoComplete="name" value={name} onChange={e => setName(e.target.value)} />}
-        <TextField margin="normal" required fullWidth label="Username" autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} />
-        <TextField margin="normal" required fullWidth label="Password" type="password" autoComplete={formState === 0 ? 'current-password' : 'new-password'} value={password} onChange={e => setPassword(e.target.value)} />
-        {error && <p className="authError" role="alert">{error}</p>}
-        <Button type="submit" fullWidth variant="contained" disabled={loading}>{loading ? 'Please wait…' : formState === 0 ? 'Sign in' : 'Create account'}</Button>
-        <p className="homeFootnote" style={{textAlign:'center', marginTop:18}}>By continuing, you agree to use SparkMeet respectfully.</p>
-      </form>
-      <button className="backHome" style={{marginTop:18}} onClick={() => navigate('/')}>← Back to home</button>
-    </div></section>
-    <Snackbar open={open} autoHideDuration={4000} message={message} onClose={() => setOpen(false)} />
-  </main>;
+  return (
+    <ConsultationLayout accountPage>
+      <section className="consultation-width consultation-hero" aria-labelledby="consultation-account-title">
+        <div className="consultation-intro">
+          <p className="consultation-kicker"><span /> Online doctor consultations</p>
+          <h1 id="consultation-account-title">
+            {isRegistering ? <>Create an <em>account.</em></> : <>Welcome <em>back.</em></>}
+          </h1>
+          <p className="consultation-description">
+            {isRegistering
+              ? 'Create your SparkMeet account to start a video room and keep track of your calls.'
+              : 'Sign in to start a video room or find a previous call in your history.'}
+          </p>
+
+          <form className="consultation-form consultation-auth-form" onSubmit={handleAuth} aria-busy={loading}>
+            <div className="consultation-auth-modes" role="group" aria-label="Account action">
+              <button type="button" aria-pressed={!isRegistering} disabled={loading} onClick={() => selectMode(false)}>Sign in</button>
+              <button type="button" aria-pressed={isRegistering} disabled={loading} onClick={() => selectMode(true)}>Create account</button>
+            </div>
+
+            {isRegistering && (
+              <div>
+                <label htmlFor="consultation-name">Full name</label>
+                <input id="consultation-name" name="name" autoComplete="name" required value={name} onChange={event => setName(event.target.value)} />
+              </div>
+            )}
+            <div>
+              <label htmlFor="consultation-username">Username</label>
+              <input id="consultation-username" name="username" autoComplete="username" autoCapitalize="none" spellCheck={false} required value={username} onChange={event => setUsername(event.target.value)} />
+            </div>
+            <div>
+              <label htmlFor="consultation-password">Password</label>
+              <input id="consultation-password" name="password" type="password" autoComplete={isRegistering ? 'new-password' : 'current-password'} required value={password} onChange={event => setPassword(event.target.value)} />
+            </div>
+
+            {message && <p className="consultation-auth-feedback" role="status">{message}</p>}
+            {error && <p className="consultation-error consultation-auth-feedback" role="alert">{error}</p>}
+            <button type="submit" disabled={loading}>
+              {loading ? 'Please wait…' : isRegistering ? 'Create account' : 'Sign in'}
+              <ArrowForwardRoundedIcon />
+            </button>
+          </form>
+        </div>
+
+        <ConsultationVisual />
+      </section>
+    </ConsultationLayout>
+  );
 }

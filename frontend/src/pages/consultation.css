@@ -125,6 +125,33 @@
 .consultation-form > p { margin: 8px 0 0; color: var(--consult-muted); font-size: 11px; }
 .consultation-form > .consultation-error { color: #963e3e; }
 
+.consultation-auth-form { display: grid; gap: 13px; }
+.consultation-auth-form input { width: 100%; }
+.consultation-auth-form label { margin-bottom: 5px; }
+.consultation-auth-modes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--consult-line);
+  border-radius: 9px;
+  background: #eef4eb;
+}
+.consultation-auth-modes button {
+  min-height: 38px;
+  padding-inline: 5px;
+  background: transparent;
+  color: var(--consult-muted);
+}
+.consultation-auth-modes button:hover { background: #e3efe3; }
+.consultation-auth-modes button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--consult-ink);
+  box-shadow: 0 1px 3px #18362d1a;
+}
+.consultation-auth-form button:disabled { opacity: .65; cursor: wait; }
+.consultation-auth-form > .consultation-auth-feedback { margin: 0; font-size: 13px; line-height: 1.4; }
+
 .consultation-visual {
   position: relative;
   min-width: 0;
