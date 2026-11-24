@@ -435,7 +435,7 @@
 .cs-room-card::before {
   content: "";
   position: absolute;
-  inset: -18px 30px 30px -18px;
+  inset: -1.2em;
   z-index: -1;
   border: 1.5px solid #c8d2ec;
   border-radius: 34px;
@@ -591,7 +591,7 @@
 .cs-app-card::before {
   content: "";
   position: absolute;
-  inset: -18px 30px 30px -18px;
+  inset: -1.2em;
   z-index: -1;
   border: 1.5px solid #c8d2ec;
   border-radius: 34px;
