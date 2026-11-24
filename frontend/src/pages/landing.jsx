@@ -86,14 +86,14 @@ export default function LandingPage() {
                   autoCapitalize="none"
                   spellCheck={false}
                   aria-invalid={Boolean(error)}
-                  aria-describedby="consultation-code-help"
+                  aria-describedby={error ? 'consultation-code-help' : undefined}
                   onChange={event => { setCode(event.target.value); setError(''); }}
                 />
                 <button type="submit">Join now</button>
               </div>
-              <p id="consultation-code-help" className={error ? 'consultation-error' : undefined} aria-live="polite">
-                {error || 'Use the code shared by your doctor.'}
-              </p>
+              {error && (
+                <p id="consultation-code-help" className="consultation-error" role="alert">{error}</p>
+              )}
             </form>
 
             <div className="cs-hero-actions">

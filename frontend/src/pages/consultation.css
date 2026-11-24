@@ -556,6 +556,93 @@
 .consultation-auth-form button:disabled { opacity: .65; cursor: wait; }
 .consultation-auth-form > .consultation-auth-feedback { margin: 0; font-size: 13px; line-height: 1.4; }
 
+/* ---------- Signed-in app pages (home, history) ---------- */
+.cs-pill-button--button { display: inline-flex; align-items: center; gap: 8px; background: #fff; cursor: pointer; font: inherit; }
+.cs-pill-button--button svg { font-size: 17px; }
+.cs-app-main { padding-block: 40px 60px; }
+.cs-app-hero {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  align-items: center;
+  gap: clamp(30px, 5vw, 70px);
+  min-height: 520px;
+}
+.cs-app-copy h1 {
+  margin: 0;
+  font-size: clamp(34px, 3.8vw, 48px);
+  font-weight: 600;
+  line-height: 1.22;
+  letter-spacing: -.01em;
+}
+.cs-app-copy h1 em { color: var(--cs-blue); font-style: normal; }
+.cs-app-copy .consultation-form { margin-top: 30px; }
+.cs-app-visual { position: relative; display: grid; place-items: center; }
+.cs-app-card {
+  position: relative;
+  width: min(100%, 420px);
+  padding: 30px;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 30px 60px -30px rgba(23, 50, 120, .4);
+}
+.cs-app-card::before {
+  content: "";
+  position: absolute;
+  inset: -18px 30px 30px -18px;
+  z-index: -1;
+  border: 1.5px solid #c8d2ec;
+  border-radius: 34px;
+}
+.cs-app-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.cs-app-card-head strong, .cs-app-card-head small { display: block; }
+.cs-app-card-head strong { font-size: 16px; font-weight: 600; }
+.cs-app-card-head small { margin-top: 2px; color: var(--cs-muted); font-size: 12px; }
+.cs-app-card p { margin: 0 0 22px; color: var(--cs-muted); font-size: 14px; line-height: 1.75; }
+.cs-app-card .cs-button { width: 100%; border: 0; cursor: pointer; font: inherit; }
+.cs-app-history { padding-bottom: 20px; }
+.cs-history-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border: 1.5px solid #c8d2ec;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--cs-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  transition: border-color .15s, color .15s;
+}
+.cs-history-link:hover { border-color: var(--cs-blue); color: var(--cs-blue); }
+.cs-app-history-page { padding-block: 30px 40px; }
+.cs-app-history-page h1 { margin: 0; font-size: clamp(30px, 3.4vw, 42px); font-weight: 600; line-height: 1.2; }
+.cs-app-history-page h1 em { color: var(--cs-blue); font-style: normal; }
+.cs-app-history-page .consultation-description { margin-bottom: 34px; }
+.cs-history-list { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.cs-history-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  border: 1px solid var(--cs-line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 30px -22px rgba(23, 50, 120, .35);
+}
+.cs-history-code { flex: 1; font-size: 14px; font-weight: 500; }
+.cs-history-date { color: var(--cs-muted); font-size: 13px; }
+.cs-history-empty {
+  padding: 48px 24px;
+  border: 1.5px dashed #c8d2ec;
+  border-radius: 18px;
+  color: var(--cs-muted);
+  text-align: center;
+  background: #fff;
+  font-size: 14px;
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1240px) {
   .cs-hero > .cs-dot { display: none; }
@@ -582,6 +669,8 @@
   .cs-heading-line, .cs-heading-row .cs-dot { display: none; }
   .cs-tile-live { display: none; }
   .cs-split--reverse .cs-split-copy { order: -1; }
+  .cs-app-hero { grid-template-columns: 1fr; min-height: auto; }
+  .cs-pill-button--button { padding: 9px 16px; }
   .cs-dotgrid { display: none; }
   .cs-cta { flex-direction: column; align-items: flex-start; padding: 36px 26px; margin-bottom: 48px; }
   .cs-footer-inner { flex-direction: column; justify-content: center; padding-block: 28px; text-align: center; }

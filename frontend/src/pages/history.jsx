@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
-import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
+import { useNavigate, Link } from 'react-router-dom';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import RestoreRoundedIcon from '@mui/icons-material/RestoreRounded';
+import { Brand } from './consultationLayout';
+import './consultation.css';
 
 export default function History() {
   const { getHistoryOfUser } = useContext(AuthContext);
@@ -23,17 +23,50 @@ export default function History() {
     return new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
   };
 
-  return <main className="historyPage appShell">
-    <header className="navBar">
-      <div className="brand"><span className="brandMark"><VideocamRoundedIcon /></span><span>Spark<span style={{color:'#6269f5'}}>Meet</span></span></div>
-      <div className="appNavActions"><Button startIcon={<ArrowBackRoundedIcon />} onClick={() => navigate('/home')}>Back to meetings</Button></div>
-    </header>
-    <section className="historyContent">
-      <div className="historyHeading"><div><h1>Your meeting history</h1><p>Pick up where your last conversation left off.</p></div></div>
-      {meetings.length ? <div className="historyList">{meetings.map((meeting, index) => <article className="historyItem" key={`${meeting.meetingCode}-${meeting.date}-${index}`}>
-        <div className="historyCode"><span className="historyIcon"><RestoreRoundedIcon /></span><span>{meeting.meetingCode || 'Meeting'}</span></div>
-        <span className="historyDate">{formatDate(meeting.date)}</span>
-      </article>)}</div> : <div className="emptyHistory">Your past meetings will appear here when you join one.</div>}
-    </section>
-  </main>;
+  return (
+    <div className="consultation-page appShellCs">
+      <header className="cs-header">
+        <div className="consultation-width cs-header-inner">
+          <Brand />
+          <nav className="cs-nav" aria-label="Main navigation">
+            <Link to="/home">Meetings</Link>
+            <Link className="is-active" to="/history">History</Link>
+          </nav>
+          <button className="cs-pill-button cs-pill-button--button" type="button" onClick={() => navigate('/home')}>
+            <ArrowBackRoundedIcon /> Back to meetings
+          </button>
+        </div>
+      </header>
+
+      <main className="consultation-width cs-app-main">
+        <section className="cs-app-history-page" aria-labelledby="history-title">
+          <p className="consultation-kicker">Your activity</p>
+          <h1 id="history-title">Meeting <em>history</em></h1>
+          <p className="consultation-description">Pick up where your last conversation left off.</p>
+
+          {meetings.length ? (
+            <ul className="cs-history-list">
+              {meetings.map((meeting, index) => (
+                <li className="cs-history-item" key={`${meeting.meetingCode}-${meeting.date}-${index}`}>
+                  <span className="cs-room-icon"><RestoreRoundedIcon /></span>
+                  <span className="cs-history-code">{meeting.meetingCode || 'Meeting'}</span>
+                  <span className="cs-history-date">{formatDate(meeting.date)}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="cs-history-empty">Your past meetings will appear here when you join one.</div>
+          )}
+        </section>
+      </main>
+
+      <footer className="cs-footer">
+        <div className="consultation-width cs-footer-inner">
+          <Brand />
+          <p>Video meetings for teams, students and doctors, right in your browser.</p>
+          <Link to="/home">Back to meetings</Link>
+        </div>
+      </footer>
+    </div>
+  );
 }
