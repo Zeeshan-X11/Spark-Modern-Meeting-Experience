@@ -9,8 +9,8 @@ import './consultation.css';
 
 export function Brand() {
   return (
-    <Link className="cs-brand" to="/" aria-label="SparkMeet home">
-      sparkmeet<span>.</span>
+    <Link className="cs-brand" to="/" aria-label="Arogyasetu home">
+      Arogyasetu<span>.</span>
     </Link>
   );
 }
@@ -50,6 +50,7 @@ export function ConsultationLayout({ children, accountPage = false }) {
 /* Decorative composition used in the hero of the landing and sign-in pages. */
 export function ConsultationVisual() {
   return (
+    <div className="cs-visual-wrap">
     <div className="cs-visual" role="img" aria-label="A doctor on a video consultation with a patient">
       <span className="cs-dot cs-dot--orange" style={{ top: '6%', right: '4%' }} />
       <span className="cs-dot cs-dot--green" style={{ bottom: '2%', right: '22%' }} />
@@ -91,6 +92,7 @@ export function ConsultationVisual() {
       <div className="cs-float cs-float--badge" aria-hidden="true">
         <b><CheckRoundedIcon /></b> No app needed
       </div>
+    </div>
     </div>
   );
 }

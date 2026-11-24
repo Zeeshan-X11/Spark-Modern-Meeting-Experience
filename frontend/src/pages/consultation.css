@@ -169,7 +169,10 @@
 .cs-feature-row svg { font-size: 19px; color: #9aa3bb; }
 
 /* Hero visual */
-.cs-visual { position: relative; width: 100%; max-width: 520px; aspect-ratio: 1 / .98; justify-self: end; }
+.cs-visual-wrap { container-type: inline-size; width: 100%; display: grid; }
+/* Everything inside is sized in em, and the em size follows the wrapper width, so the artwork scales as one piece. */
+.cs-visual { position: relative; width: 100%; max-width: 520px; aspect-ratio: 1 / .98; justify-self: end; font-size: min(16px, 3.077cqw); }
+.cs-visual .cs-dot { width: .75em; height: .75em; }
 .cs-visual-main {
   position: absolute;
   top: 4%;
@@ -203,7 +206,7 @@
   flex-direction: column;
   width: 32%;
   height: 52%;
-  padding: 8px;
+  padding: .5em;
   border: 1.5px solid #f2c6a9;
   border-radius: 999px;
   background: #fff;
@@ -215,8 +218,8 @@
   flex: 1;
   place-items: center;
   align-content: center;
-  gap: 10px;
-  border-radius: 999px 999px 24px 24px;
+  gap: .6em;
+  border-radius: 999px 999px 1.5em 1.5em;
   background: radial-gradient(circle at 50% 30%, #3a4a7a, #141c3a 75%);
   color: #fff;
 }
@@ -225,47 +228,47 @@
   top: 16%;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 3px 9px;
+  gap: .3em;
+  padding: .2em .55em;
   border-radius: 999px;
   background: rgba(255, 255, 255, .14);
-  font-size: 10px;
+  font-size: .62em;
   font-weight: 500;
 }
-.cs-tile-live i { width: 6px; height: 6px; border-radius: 50%; background: #ff5a5a; }
+.cs-tile-live i { width: .38em; height: .38em; border-radius: 50%; background: #ff5a5a; }
 .cs-tile-avatar {
   display: grid;
   place-items: center;
-  width: 54px;
-  height: 54px;
+  width: 3.4em;
+  height: 3.4em;
   border-radius: 50%;
   background: linear-gradient(135deg, #5f8cff, #a46bff);
-  font-size: 14px;
+  font-size: .875em;
   font-weight: 600;
 }
-.cs-tile-name { font-size: 11px; opacity: .8; }
-.cs-tile-controls { display: flex; justify-content: center; gap: 6px; padding: 10px 0 12px; }
+.cs-tile-name { font-size: .69em; opacity: .8; }
+.cs-tile-controls { display: flex; justify-content: center; gap: .375em; padding: .6em 0 .75em; }
 .cs-tile-controls span {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 1.75em;
+  height: 1.75em;
   border-radius: 50%;
   background: #eef2fb;
   color: #3b4566;
 }
 .cs-tile-controls span.is-end { background: #ff4d4d; color: #fff; }
-.cs-tile-controls svg { font-size: 16px; }
+.cs-tile-controls svg { font-size: 1em; }
 
 .cs-float {
   position: absolute;
-  border-radius: 10px;
+  border-radius: .6em;
   background: #fff;
   box-shadow: 0 14px 30px -12px rgba(23, 50, 120, .25);
   animation: cs-bob 6s ease-in-out infinite;
 }
-.cs-float--bars { display: grid; gap: 7px; width: 26%; padding: 14px 16px; }
-.cs-float--bars i { display: block; height: 4px; border-radius: 4px; }
+.cs-float--bars { display: grid; gap: .45em; width: 26%; padding: .9em 1em; }
+.cs-float--bars i { display: block; height: .25em; border-radius: .25em; }
 .cs-float--top { top: 7%; left: 4%; }
 .cs-float--bottom { right: 0; bottom: 8%; width: 32%; animation-delay: -3s; }
 .cs-float--connect {
@@ -273,45 +276,45 @@
   right: -4%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 7px 7px 14px;
+  gap: .6em;
+  padding: .45em .45em .45em .9em;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: .7em;
   font-weight: 500;
   animation-delay: -1.5s;
 }
 .cs-float--connect b {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 2em;
+  height: 2em;
   border-radius: 50%;
   background: var(--cs-blue);
   color: #fff;
 }
-.cs-float--connect svg { font-size: 18px; }
+.cs-float--connect svg { font-size: 1.12em; }
 .cs-float--badge {
   top: 29%;
   left: 20%;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 6px 12px 6px 6px;
+  gap: .45em;
+  padding: .375em .75em .375em .375em;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: .7em;
   font-weight: 600;
   animation-delay: -4.5s;
 }
 .cs-float--badge b {
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
+  width: 1.4em;
+  height: 1.4em;
   border-radius: 50%;
   background: var(--cs-orange);
   color: #fff;
 }
-.cs-float--badge svg { font-size: 14px; }
+.cs-float--badge svg { font-size: .9em; }
 
 @keyframes cs-bob {
   0%, 100% { transform: translateY(0); }
@@ -690,6 +693,8 @@
 
 @media (max-width: 760px) {
   .consultation-width { width: calc(100% - 32px); }
+  .cs-visual { max-width: 400px; margin-inline: auto; }
+  .cs-visual-wrap { justify-items: center; }
   .cs-header-inner { min-height: 72px; }
   .cs-hero { margin-top: -72px; padding-top: 72px; background: #fff; }
   .consultation-hero, .cs-split { grid-template-columns: 1fr; }
