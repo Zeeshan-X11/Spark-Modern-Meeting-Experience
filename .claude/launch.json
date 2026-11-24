@@ -7,6 +7,13 @@
       "runtimeArgs": ["--prefix", "frontend", "start"],
       "env": { "BROWSER": "none", "PORT": "3000" },
       "port": 3000
+    },
+    {
+      "name": "backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "backend", "start"],
+      "env": { "PORT": "8000", "MONGODB_URI": "mongodb://127.0.0.1:27017/sparkmeet" },
+      "port": 8000
     }
   ]
 }
