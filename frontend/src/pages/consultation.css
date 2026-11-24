@@ -183,7 +183,7 @@
 .cs-visual-main::before {
   content: "";
   position: absolute;
-  inset: 0 6% -3% -9%;
+  inset: -1.5em;
   border: 1.5px solid #c8d2ec;
   border-radius: 999px;
 }
