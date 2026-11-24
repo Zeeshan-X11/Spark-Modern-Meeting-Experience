@@ -9,8 +9,8 @@ import './consultation.css';
 
 export function Brand() {
   return (
-    <Link className="cs-brand" to="/" aria-label="Arogyasetu home">
-      Arogyasetu<span>.</span>
+    <Link className="cs-brand" to="/" aria-label="Charcha home">
+      Charcha<span>.</span>
     </Link>
   );
 }

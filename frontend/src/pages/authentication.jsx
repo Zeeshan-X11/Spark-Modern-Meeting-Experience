@@ -55,7 +55,7 @@ export default function Authentication() {
           </h1>
           <p className="consultation-description">
             {isRegistering
-              ? 'Create your Arogyasetu account to start a video room and keep track of your calls.'
+              ? 'Create your Charcha account to start a video room and keep track of your calls.'
               : 'Sign in to start a video room or find a previous call in your history.'}
           </p>
 
