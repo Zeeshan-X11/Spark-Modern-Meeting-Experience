@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import VideocamRoundedIcon from '@mui/icons-material/VideocamRounded';
 import ScreenShareRoundedIcon from '@mui/icons-material/ScreenShareRounded';
@@ -41,26 +41,10 @@ const services = [
 const steps = [
   { title: 'Get your code', copy: 'Your doctor shares a consultation code with you before the appointment.' },
   { title: 'Check your device', copy: 'Find a quiet, well-lit spot and allow your camera and microphone.' },
-  { title: 'Join the room', copy: 'Enter the code above and your consultation opens right in the browser.' }
+  { title: 'Join the room', copy: 'Sign in and your consultation opens right in the browser.' }
 ];
 
 export default function LandingPage() {
-  const navigate = useNavigate();
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
-
-  function joinConsultation(event) {
-    event.preventDefault();
-    const room = code.trim();
-
-    if (!room || /^(auth|home|history|\.{1,2})$/i.test(room)) {
-      setError('Enter the consultation code shared by your doctor.');
-      return;
-    }
-
-    navigate('/' + encodeURIComponent(room));
-  }
-
   return (
     <ConsultationLayout>
       {/* Hero */}
@@ -71,30 +55,8 @@ export default function LandingPage() {
             <p className="consultation-kicker">Online doctor consultations</p>
             <h1 id="consultation-title">Your Doctor Is Just <em>One Video Call</em> Away</h1>
             <p className="consultation-description">
-              Meet your doctor from wherever you are. Enter the consultation code they shared with you and join straight from your browser.
+              Meet your doctor from wherever you are. Sign in, and join your consultation straight from your browser.
             </p>
-
-            <form className="consultation-form" onSubmit={joinConsultation} id="join">
-              <label htmlFor="consultation-code" className="cs-sr-only">Consultation code</label>
-              <div className="consultation-form-controls">
-                <input
-                  id="consultation-code"
-                  type="text"
-                  value={code}
-                  placeholder="Enter consultation code"
-                  autoComplete="off"
-                  autoCapitalize="none"
-                  spellCheck={false}
-                  aria-invalid={Boolean(error)}
-                  aria-describedby={error ? 'consultation-code-help' : undefined}
-                  onChange={event => { setCode(event.target.value); setError(''); }}
-                />
-                <button type="submit">Join now</button>
-              </div>
-              {error && (
-                <p id="consultation-code-help" className="consultation-error" role="alert">{error}</p>
-              )}
-            </form>
 
             <div className="cs-hero-actions">
               <a className="cs-play" href="#how-it-works">
@@ -154,7 +116,7 @@ export default function LandingPage() {
               <li><CheckCircleRoundedIcon /> Share your screen to show reports</li>
               <li><CheckCircleRoundedIcon /> Chat alongside the video</li>
             </ul>
-            <a className="cs-button" href="#join">Join a consultation</a>
+            <Link className="cs-button" to="/auth">Join a consultation</Link>
             <DashedFlight className="cs-flight--split" />
           </div>
         </div>
@@ -216,7 +178,7 @@ export default function LandingPage() {
           <p>Have your code ready and join in a few seconds.</p>
         </div>
         <div className="cs-cta-actions">
-          <a className="cs-button cs-button--light" href="#join">Join with code</a>
+          <Link className="cs-button cs-button--light" to="/auth">Join with code</Link>
           <Link className="cs-button cs-button--ghost" to="/auth">Sign in</Link>
         </div>
       </section>

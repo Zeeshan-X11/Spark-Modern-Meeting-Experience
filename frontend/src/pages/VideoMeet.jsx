@@ -12,6 +12,9 @@ import ScreenShareIcon from '@mui/icons-material/ScreenShare';
 import StopScreenShareIcon from '@mui/icons-material/StopScreenShare'
 import ChatIcon from '@mui/icons-material/Chat'
 import server from '../environment';
+import { Link } from 'react-router-dom';
+import { Brand } from './consultationLayout';
+import './consultation.css';
 
 const server_url = server;
 
@@ -462,18 +465,41 @@ export default function VideoMeetComponent() {
 
             {askForUsername === true ?
 
-                <div>
+                <div className="consultation-page">
+                    <header className="cs-header">
+                        <div className="consultation-width cs-header-inner">
+                            <Brand />
+                            <Link className="cs-pill-button" to="/home">Back to meetings</Link>
+                        </div>
+                    </header>
 
+                    <main className="consultation-width cs-lobby">
+                        <section className="cs-lobby-copy">
+                            <p className="consultation-kicker">Before you join</p>
+                            <h1>Enter the <em>lobby</em></h1>
+                            <p className="consultation-description">Check your camera, then choose the name others will see in the room.</p>
 
-                    <h2>Enter into Lobby </h2>
-                    <TextField id="outlined-basic" label="Username" value={username} onChange={e => setUsername(e.target.value)} variant="outlined" />
-                    <Button variant="contained" onClick={connect}>Connect</Button>
+                            <form className="consultation-form cs-lobby-form" onSubmit={(e) => { e.preventDefault(); connect(); }}>
+                                <label htmlFor="lobby-username">Your name</label>
+                                <div className="consultation-form-controls">
+                                    <input
+                                        id="lobby-username"
+                                        type="text"
+                                        value={username}
+                                        placeholder="Enter your name"
+                                        autoComplete="name"
+                                        onChange={e => setUsername(e.target.value)}
+                                    />
+                                    <button type="submit">Join room</button>
+                                </div>
+                            </form>
+                        </section>
 
-
-                    <div>
-                        <video ref={localVideoref} autoPlay muted></video>
-                    </div>
-
+                        <figure className="cs-lobby-preview">
+                            <video ref={localVideoref} autoPlay muted playsInline aria-label="Your camera preview"></video>
+                            <figcaption>Camera preview</figcaption>
+                        </figure>
+                    </main>
                 </div> :
 
 
